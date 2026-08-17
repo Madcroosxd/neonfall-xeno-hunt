@@ -1,0 +1,342 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource path="res://scripts/main.gd" type="Script" id="1_main"]
+[ext_resource path="res://assets/generated/arena_background_v2.png" type="Texture2D" id="2_arena"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_health_bg"]
+bg_color = Color(0.025, 0.055, 0.09, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.5, 0.62, 0.7)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_health_fill"]
+bg_color = Color(0.18, 0.94, 0.48, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_xp_fill"]
+bg_color = Color(0.25, 0.8, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(0.012, 0.02, 0.05, 1)
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="ArenaBackground" type="Sprite2D" parent="World"]
+texture = ExtResource("2_arena")
+position = Vector2(960, 540)
+scale = Vector2(1.1485, 1.1485)
+modulate = Color(0.62, 0.7, 0.82, 0.68)
+texture_filter = 2
+
+[node name="ArenaShade" type="ColorRect" parent="World"]
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0.018, 0.028, 0.065, 0.28)
+
+[node name="Grid" type="Node2D" parent="World"]
+
+[node name="Entities" type="Node2D" parent="World"]
+
+[node name="Projectiles" type="Node2D" parent="World"]
+
+[node name="Pickups" type="Node2D" parent="World"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="StatusPanel" type="PanelContainer" parent="CanvasLayer/HUD"]
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 354.0
+offset_bottom = 158.0
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/HUD/StatusPanel"]
+layout_mode = 2
+
+[node name="Info" type="Label" parent="CanvasLayer/HUD/StatusPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.76, 0.93, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "WAVE 01   KILLS 0   SCORE 0"
+
+[node name="HealthText" type="Label" parent="CanvasLayer/HUD/StatusPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 1, 0.82, 1)
+theme_override_font_sizes/font_size = 13
+text = "HEALTH 110 / 110"
+
+[node name="Health" type="ProgressBar" parent="CanvasLayer/HUD/StatusPanel/VBox"]
+custom_minimum_size = Vector2(320, 18)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBox_health_bg")
+theme_override_styles/fill = SubResource("StyleBox_health_fill")
+max_value = 120.0
+value = 120.0
+show_percentage = false
+
+[node name="XP" type="ProgressBar" parent="CanvasLayer/HUD/StatusPanel/VBox"]
+custom_minimum_size = Vector2(320, 14)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBox_health_bg")
+theme_override_styles/fill = SubResource("StyleBox_xp_fill")
+max_value = 45.0
+show_percentage = false
+
+[node name="Protocol" type="Label" parent="CanvasLayer/HUD/StatusPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.62, 1, 1)
+text = "GÜNLÜK: OVERDRIVE"
+
+[node name="BossStatus" type="PanelContainer" parent="CanvasLayer/HUD"]
+visible = false
+offset_left = 390.0
+offset_top = 18.0
+offset_right = 890.0
+offset_bottom = 88.0
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/HUD/BossStatus"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="CanvasLayer/HUD/BossStatus/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.35, 0.5, 1)
+theme_override_font_sizes/font_size = 18
+text = "BOSS"
+horizontal_alignment = 1
+
+[node name="Health" type="ProgressBar" parent="CanvasLayer/HUD/BossStatus/VBox"]
+custom_minimum_size = Vector2(480, 18)
+layout_mode = 2
+show_percentage = false
+
+[node name="Stats" type="Label" parent="CanvasLayer/HUD"]
+offset_left = 930.0
+offset_top = 22.0
+offset_right = 1260.0
+offset_bottom = 82.0
+theme_override_colors/font_color = Color(0.75, 0.9, 1, 1)
+text = "DMG 24   ROF 5.0   MULTI 1"
+horizontal_alignment = 2
+
+[node name="WaveBanner" type="Label" parent="CanvasLayer/HUD"]
+visible = false
+offset_left = 350.0
+offset_top = 245.0
+offset_right = 930.0
+offset_bottom = 335.0
+theme_override_colors/font_color = Color(0.45, 0.92, 1, 1)
+theme_override_font_sizes/font_size = 34
+text = "WAVE 01"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Mission" type="Label" parent="CanvasLayer/HUD"]
+offset_left = 890.0
+offset_top = 622.0
+offset_right = 1260.0
+offset_bottom = 708.0
+theme_override_colors/font_color = Color(0.72, 0.85, 0.96, 1)
+text = "GÖREV: 40 uzaylı imha et"
+horizontal_alignment = 2
+
+[node name="Help" type="Label" parent="CanvasLayer/HUD"]
+offset_left = 18.0
+offset_top = 676.0
+offset_right = 760.0
+offset_bottom = 708.0
+theme_override_colors/font_color = Color(0.55, 0.68, 0.8, 1)
+text = "WASD / Oklar: hareket  •  Mouse: nişan  •  Sol tık: ateş  •  Space: jetpack  •  M: müzik"
+
+[node name="LevelUp" type="PanelContainer" parent="CanvasLayer/HUD"]
+visible = false
+offset_left = 350.0
+offset_top = 175.0
+offset_right = 930.0
+offset_bottom = 545.0
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/HUD/LevelUp"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/HUD/LevelUp/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.93, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "WAVE CLEARED"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="CanvasLayer/HUD/LevelUp/VBox"]
+layout_mode = 2
+text = "Bir geliştirme seç — savaş seçimden sonra devam eder"
+horizontal_alignment = 1
+
+[node name="Choice1" type="Button" parent="CanvasLayer/HUD/LevelUp/VBox"]
+custom_minimum_size = Vector2(520, 72)
+layout_mode = 2
+text = "Choice 1"
+
+[node name="Choice2" type="Button" parent="CanvasLayer/HUD/LevelUp/VBox"]
+custom_minimum_size = Vector2(520, 72)
+layout_mode = 2
+text = "Choice 2"
+
+[node name="Choice3" type="Button" parent="CanvasLayer/HUD/LevelUp/VBox"]
+custom_minimum_size = Vector2(520, 72)
+layout_mode = 2
+text = "Choice 3"
+
+[node name="Reroll" type="Button" parent="CanvasLayer/HUD/LevelUp/VBox"]
+custom_minimum_size = Vector2(260, 42)
+layout_mode = 2
+text = "YENİDEN ÇEVİR  •  2"
+
+[node name="Build" type="Label" parent="CanvasLayer/HUD/LevelUp/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.72, 0.84, 1)
+text = "SİNERJİ: Henüz evrim yok"
+horizontal_alignment = 1
+
+[node name="AudioButton" type="Button" parent="CanvasLayer/HUD"]
+offset_left = 1128.0
+offset_top = 104.0
+offset_right = 1258.0
+offset_bottom = 142.0
+text = "AUDIO  ♪"
+
+[node name="AudioPanel" type="PanelContainer" parent="CanvasLayer/HUD"]
+visible = false
+offset_left = 935.0
+offset_top = 150.0
+offset_right = 1258.0
+offset_bottom = 330.0
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/HUD/AudioPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="CanvasLayer/HUD/AudioPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.93, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "AUDIO SETTINGS"
+horizontal_alignment = 1
+
+[node name="MusicLabel" type="Label" parent="CanvasLayer/HUD/AudioPanel/VBox"]
+layout_mode = 2
+text = "MUSIC  52%"
+
+[node name="Music" type="HSlider" parent="CanvasLayer/HUD/AudioPanel/VBox"]
+layout_mode = 2
+max_value = 100.0
+value = 52.0
+
+[node name="SfxLabel" type="Label" parent="CanvasLayer/HUD/AudioPanel/VBox"]
+layout_mode = 2
+text = "SFX  78%"
+
+[node name="Sfx" type="HSlider" parent="CanvasLayer/HUD/AudioPanel/VBox"]
+layout_mode = 2
+max_value = 100.0
+value = 78.0
+
+[node name="Close" type="Button" parent="CanvasLayer/HUD/AudioPanel/VBox"]
+layout_mode = 2
+text = "CLOSE"
+
+[node name="Pause" type="PanelContainer" parent="CanvasLayer/HUD"]
+visible = false
+offset_left = 440.0
+offset_top = 185.0
+offset_right = 840.0
+offset_bottom = 535.0
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/HUD/Pause"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/HUD/Pause/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "OYUN DURAKLATILDI"
+horizontal_alignment = 1
+
+[node name="Copy" type="Label" parent="CanvasLayer/HUD/Pause/VBox"]
+layout_mode = 2
+text = "ESC ile devam et\nSes seviyelerini aşağıdan ayarlayabilirsin"
+horizontal_alignment = 1
+
+[node name="MusicLabel" type="Label" parent="CanvasLayer/HUD/Pause/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.92, 1, 1)
+text = "MUSIC  52%"
+
+[node name="Music" type="HSlider" parent="CanvasLayer/HUD/Pause/VBox"]
+custom_minimum_size = Vector2(340, 32)
+layout_mode = 2
+max_value = 100.0
+value = 52.0
+
+[node name="SfxLabel" type="Label" parent="CanvasLayer/HUD/Pause/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.82, 1, 1)
+text = "SFX  78%"
+
+[node name="Sfx" type="HSlider" parent="CanvasLayer/HUD/Pause/VBox"]
+custom_minimum_size = Vector2(340, 32)
+layout_mode = 2
+max_value = 100.0
+value = 78.0
+
+[node name="GameOver" type="PanelContainer" parent="CanvasLayer/HUD"]
+visible = false
+offset_left = 420.0
+offset_top = 240.0
+offset_right = 860.0
+offset_bottom = 480.0
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/HUD/GameOver"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/HUD/GameOver/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.35, 0.48, 1)
+theme_override_font_sizes/font_size = 30
+text = "RUN OVER"
+horizontal_alignment = 1
+
+[node name="Stats" type="Label" parent="CanvasLayer/HUD/GameOver/VBox"]
+layout_mode = 2
+text = "Kills: 0"
+horizontal_alignment = 1
+
+[node name="Restart" type="Button" parent="CanvasLayer/HUD/GameOver/VBox"]
+custom_minimum_size = Vector2(300, 52)
+layout_mode = 2
+text = "TEKRAR OYNA"

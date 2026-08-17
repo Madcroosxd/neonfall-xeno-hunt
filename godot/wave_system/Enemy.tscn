@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://wave_system/Enemy.gd" id="1_enemy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape_enemy"]
+radius = 20.0
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_enemy")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Shadow" type="Polygon2D" parent="Visual"]
+position = Vector2(0, 16)
+scale = Vector2(1, 0.38)
+polygon = PackedVector2Array(20, 0, 18.478, 7.654, 14.142, 14.142, 7.654, 18.478, 0, 20, -7.654, 18.478, -14.142, 14.142, -18.478, 7.654, -20, 0, -18.478, -7.654, -14.142, -14.142, -7.654, -18.478, 0, -20, 7.654, -18.478, 14.142, -14.142, 18.478, -7.654)
+color = Color(0.01, 0.02, 0.06, 0.3)
+
+[node name="Body" type="Polygon2D" parent="Visual"]
+polygon = PackedVector2Array(24, 0, 22.173, 9.184, 16.971, 16.971, 9.184, 22.173, 0, 24, -9.184, 22.173, -16.971, 16.971, -22.173, 9.184, -24, 0, -22.173, -9.184, -16.971, -16.971, -9.184, -22.173, 0, -24, 9.184, -22.173, 16.971, -16.971, 22.173, -9.184)
+color = Color(0.65, 0.36, 1, 1)
+
+[node name="Outline" type="Line2D" parent="Visual"]
+points = PackedVector2Array(24, 0, 22.173, 9.184, 16.971, 16.971, 9.184, 22.173, 0, 24, -9.184, 22.173, -16.971, 16.971, -22.173, 9.184, -24, 0, -22.173, -9.184, -16.971, -16.971, -9.184, -22.173, 0, -24, 9.184, -22.173, 16.971, -16.971, 22.173, -9.184, 24, 0)
+width = 4.0
+default_color = Color(0.025, 0.04, 0.09, 1)
+joint_mode = 2
+
+[node name="Face" type="Label" parent="Visual"]
+offset_left = -20.0
+offset_top = -13.0
+offset_right = 20.0
+offset_bottom = 14.0
+theme_override_colors/font_color = Color(0.04, 0.06, 0.12, 1)
+theme_override_font_sizes/font_size = 17
+text = "•ᴗ•"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape_enemy")

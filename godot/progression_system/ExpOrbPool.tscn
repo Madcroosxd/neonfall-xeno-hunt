@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://progression_system/ExpOrbPool.gd" id="1_pool"]
+[ext_resource type="PackedScene" path="res://progression_system/ExpOrb.tscn" id="2_orb"]
+
+[node name="ExpOrbPool" type="Node2D"]
+script = ExtResource("1_pool")
+orb_scene = ExtResource("2_orb")
+prewarm_count = 96

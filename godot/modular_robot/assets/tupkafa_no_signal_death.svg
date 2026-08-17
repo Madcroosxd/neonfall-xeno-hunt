@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <ellipse cx="62" cy="105" rx="43" ry="12" fill="#071126" opacity=".45"/>
+  <g transform="rotate(9 64 68)">
+    <path d="M31 77 19 94l15 7 13-18zm53 5 14 17 14-10-17-17z" fill="#26334f" stroke="#09132a" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M30 58c0-18 15-31 34-31s35 13 35 31v31c0 16-15 27-35 27S30 105 30 89z" fill="#60758b" stroke="#09132a" stroke-width="6"/>
+    <path d="M43 25 38 11m45 16 5-18" stroke="#09132a" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="38" cy="10" r="6" fill="#46516c" stroke="#09132a" stroke-width="4"/>
+    <circle cx="88" cy="9" r="6" fill="#46516c" stroke="#09132a" stroke-width="4"/>
+    <rect x="39" y="35" width="51" height="43" rx="9" fill="#0b1020" stroke="#09132a" stroke-width="5"/>
+    <path d="M43 42h43M43 49h43M43 56h43M43 63h43M43 70h43" stroke="#9badbd" stroke-width="3" opacity=".7"/>
+    <path d="m47 43 9 7 9-5 9 8 12-7M44 64l12-8 11 10 9-7 11 8" fill="none" stroke="#d8e4e8" stroke-width="2"/>
+    <path d="M49 88h31l-5 16H53z" fill="#414a63" stroke="#09132a" stroke-width="4"/>
+  </g>
+  <text x="64" y="122" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="bold" fill="#ff6c83">NO SIGNAL</text>
+</svg>

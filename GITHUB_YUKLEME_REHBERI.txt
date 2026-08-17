@@ -1,0 +1,19 @@
+NEONFALL V17 — GITHUB DESKTOP İLE YÜKLEME
+
+1. NEONFALL_GITHUB_UPLOAD_V17.zip dosyasını bir klasöre çıkar.
+2. İndirdiğin GitHubDesktopSetup-x64.exe dosyasını çalıştır ve GitHub Desktop'ı kur.
+3. GitHub Desktop'ı açıp GitHub hesabınla giriş yap.
+4. File > Add Local Repository seçeneğine gir.
+5. Choose düğmesiyle çıkardığın NEONFALL_GITHUB_UPLOAD_V17 klasörünü seç.
+6. Sol alttaki Summary alanına "NEONFALL V17 kaynak kodu" yaz.
+7. Commit to main düğmesine bas.
+8. Üst bölümdeki Publish repository düğmesine bas.
+9. Depo adını örneğin neonfall-xeno-hunt olarak belirle.
+10. Gizli olmasını istiyorsan Keep this code private işaretli kalsın. Herkese açık olmasını istiyorsan işareti kaldır.
+11. Publish Repository düğmesine bas.
+
+NOTLAR
+
+- Paket yeni ve bağlantısız bir Git deposu olarak hazırlandı; mevcut canlı site deposuna yanlışlıkla gönderim yapmaz.
+- node_modules, geçici çalışma klasörleri ve önceki paketleme artıkları pakete dahil değildir.
+- GitHub yüklemesi oyunun canlı sitesini değiştirmez; yalnızca kaynak kodunu GitHub hesabına koyar.

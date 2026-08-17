@@ -1,0 +1,113 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://progression_system/LevelUpUI.gd" id="1_ui"]
+[ext_resource type="PackedScene" path="res://progression_system/LevelUpCard.tscn" id="2_card"]
+
+[node name="LevelUpUI" type="CanvasLayer"]
+layer = 100
+process_mode = 3
+script = ExtResource("1_ui")
+
+[node name="Overlay" type="Control" parent="."]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.006, 0.012, 0.035, 0.94)
+
+[node name="TopGlow" type="ColorRect" parent="Overlay"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 6.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0.15, 0.88, 1, 0.8)
+
+[node name="Center" type="CenterContainer" parent="Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 26.0
+offset_right = -30.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Layout" type="VBoxContainer" parent="Overlay/Center"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="Eyebrow" type="Label" parent="Overlay/Center/Layout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.35, 0.91, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "T.V.-80 // DUYGUSAL İŞLETİM SİSTEMİ"
+horizontal_alignment = 1
+
+[node name="Level" type="Label" parent="Overlay/Center/Layout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.96, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 30
+text = "LEVEL 02  //  DEVRE YÜKSELTME"
+horizontal_alignment = 1
+
+[node name="Prompt" type="Label" parent="Overlay/Center/Layout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.56, 0.63, 0.78, 1)
+theme_override_font_sizes/font_size = 15
+text = "BU KOŞU İÇİN BİR MODÜL SEÇ"
+horizontal_alignment = 1
+
+[node name="Cards" type="HBoxContainer" parent="Overlay/Center/Layout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="Card1" parent="Overlay/Center/Layout/Cards" instance=ExtResource("2_card")]
+layout_mode = 2
+
+[node name="Card2" parent="Overlay/Center/Layout/Cards" instance=ExtResource("2_card")]
+layout_mode = 2
+
+[node name="Card3" parent="Overlay/Center/Layout/Cards" instance=ExtResource("2_card")]
+layout_mode = 2
+
+[node name="Card4" parent="Overlay/Center/Layout/Cards" instance=ExtResource("2_card")]
+layout_mode = 2
+
+[node name="SkipButton" type="Button" parent="Overlay/Center/Layout"]
+custom_minimum_size = Vector2(280, 46)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.66, 0.75, 0.9, 1)
+theme_override_colors/font_hover_color = Color(0.9, 0.96, 1, 1)
+theme_override_font_sizes/font_size = 15
+text = "PAS GEÇ  •  BU SEVİYEYİ ATLAMA"
+
+[node name="Footer" type="Label" parent="Overlay/Center/Layout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.43, 0.5, 0.65, 1)
+theme_override_font_sizes/font_size = 13
+text = "SEÇİM ÖLÜME KADAR AKTİF  •  KOŞU BİTİNCE TÜM MODÜLLER SIFIRLANIR"
+horizontal_alignment = 1

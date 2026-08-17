@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://modular_robot/Player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://modular_robot/ProjectilePool.gd" id="2_pool"]
+[ext_resource type="PackedScene" path="res://modular_robot/Projectile.tscn" id="3_projectile"]
+
+[node name="ModularRobotDemo" type="Node2D"]
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(0.025, 0.045, 0.09, 1)
+
+[node name="Grid" type="Node2D" parent="."]
+
+[node name="Projectiles" type="Node2D" parent="."]
+script = ExtResource("2_pool")
+projectile_scene = ExtResource("3_projectile")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(640, 360)
+projectile_container_path = NodePath("../Projectiles")
+
+[node name="Instructions" type="Label" parent="."]
+offset_left = 28.0
+offset_top = 24.0
+offset_right = 560.0
+offset_bottom = 82.0
+theme_override_colors/font_color = Color(0.67, 0.94, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "WASD: Hareket  •  Mouse: Nişan\nPlasma Peashooter otomatik ateş eder"

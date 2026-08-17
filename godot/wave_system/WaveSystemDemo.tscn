@@ -1,0 +1,135 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="PackedScene" path="res://modular_robot/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://wave_system/EnemyPool.tscn" id="2_pool"]
+[ext_resource type="Script" path="res://wave_system/WaveManager.gd" id="3_wave"]
+[ext_resource type="Script" path="res://wave_system/BossHealthUI.gd" id="4_ui"]
+[ext_resource type="Script" path="res://modular_robot/ProjectilePool.gd" id="5_projectile_pool"]
+[ext_resource type="PackedScene" path="res://modular_robot/Projectile.tscn" id="6_projectile"]
+[ext_resource type="Script" path="res://wave_system/ArenaController.gd" id="7_controller"]
+[ext_resource type="PackedScene" path="res://wave_system/EnemyProjectile.tscn" id="8_enemy_projectile"]
+[ext_resource type="Texture2D" path="res://assets/generated/space_arena_bg_v2_clean.png" id="9_background"]
+
+[node name="WaveSystemDemo" type="Node2D"]
+script = ExtResource("7_controller")
+
+[node name="Background" type="TextureRect" parent="."]
+z_index = -100
+offset_right = 3400.0
+offset_bottom = 1900.0
+mouse_filter = 2
+texture = ExtResource("9_background")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Atmosphere" type="ColorRect" parent="."]
+z_index = -99
+offset_right = 3400.0
+offset_bottom = 1900.0
+mouse_filter = 2
+color = Color(0.01, 0.018, 0.055, 0.1)
+
+[node name="Projectiles" type="Node2D" parent="."]
+script = ExtResource("5_projectile_pool")
+projectile_scene = ExtResource("6_projectile")
+
+[node name="EnemyProjectiles" type="Node2D" parent="."]
+script = ExtResource("5_projectile_pool")
+projectile_scene = ExtResource("8_enemy_projectile")
+prewarm_count = 48
+max_active_projectiles = 160
+
+[node name="EnemyPool" parent="." instance=ExtResource("2_pool")]
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="NorthWest" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(60, 60)
+
+[node name="North" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1700, 50)
+
+[node name="NorthEast" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(3340, 60)
+
+[node name="East" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(3350, 950)
+
+[node name="SouthEast" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(3340, 1840)
+
+[node name="South" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1700, 1850)
+
+[node name="SouthWest" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(60, 1840)
+
+[node name="West" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(50, 950)
+
+[node name="ArenaCenter" type="Marker2D" parent="."]
+position = Vector2(1700, 950)
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(1700, 1050)
+projectile_container_path = NodePath("../Projectiles")
+
+[node name="WaveManager" type="Node" parent="."]
+script = ExtResource("3_wave")
+player_path = NodePath("../Player")
+enemy_pool_path = NodePath("../EnemyPool")
+spawn_points_path = NodePath("../SpawnPoints")
+arena_center_path = NodePath("../ArenaCenter")
+
+[node name="BossHealthUI" type="CanvasLayer" parent="."]
+script = ExtResource("4_ui")
+wave_manager_path = NodePath("../WaveManager")
+
+[node name="HUD" type="Control" parent="BossHealthUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="WaveLabel" type="Label" parent="BossHealthUI/HUD"]
+visible = false
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 520.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(0.64, 0.93, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "WAVE 01"
+
+[node name="BossPanel" type="PanelContainer" parent="BossHealthUI/HUD"]
+offset_left = 340.0
+offset_top = 28.0
+offset_right = 940.0
+offset_bottom = 128.0
+
+[node name="VBox" type="VBoxContainer" parent="BossHealthUI/HUD/BossPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BossName" type="Label" parent="BossHealthUI/HUD/BossPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.38, 0.48, 1)
+theme_override_font_sizes/font_size = 22
+text = "MEGA-MONITOR"
+horizontal_alignment = 1
+
+[node name="BossHealth" type="ProgressBar" parent="BossHealthUI/HUD/BossPanel/VBox"]
+custom_minimum_size = Vector2(560, 26)
+layout_mode = 2
+max_value = 800.0
+value = 800.0
+show_percentage = false
+
+[node name="BossHealthText" type="Label" parent="BossHealthUI/HUD/BossPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.58, 1)
+text = "800 / 800"
+horizontal_alignment = 1

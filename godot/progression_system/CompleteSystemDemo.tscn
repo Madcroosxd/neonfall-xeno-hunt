@@ -1,0 +1,422 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="PackedScene" path="res://wave_system/WaveSystemDemo.tscn" id="1_arena"]
+[ext_resource type="PackedScene" path="res://progression_system/ExpOrbPool.tscn" id="2_orb_pool"]
+[ext_resource type="Script" path="res://progression_system/ExpManager.gd" id="3_exp"]
+[ext_resource type="Script" path="res://progression_system/BuffSystem.gd" id="4_buff"]
+[ext_resource type="PackedScene" path="res://progression_system/LevelUpUI.tscn" id="5_level_ui"]
+[ext_resource type="Script" path="res://progression_system/RunProgression.gd" id="6_run"]
+[ext_resource type="Script" path="res://progression_system/RunHUD.gd" id="7_hud"]
+[ext_resource type="Script" path="res://progression_system/WebGameBridge.gd" id="8_web_bridge"]
+[ext_resource type="Script" path="res://progression_system/WeaponHUD.gd" id="9_weapon_hud"]
+[ext_resource type="Script" path="res://scripts/neon_audio.gd" id="10_neon_audio"]
+[ext_resource type="Script" path="res://progression_system/PauseMenu.gd" id="11_pause_menu"]
+
+[sub_resource type="StyleBoxFlat" id="StylePanel"]
+bg_color = Color(0.018, 0.032, 0.075, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.18, 0.58, 0.75, 0.8)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBarBackground"]
+bg_color = Color(0.025, 0.04, 0.08, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleHealthFill"]
+bg_color = Color(0.98, 0.22, 0.36, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleExpFill"]
+bg_color = Color(0.2, 0.83, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleDashFill"]
+bg_color = Color(0.62, 0.35, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleGameOverPanel"]
+bg_color = Color(0.018, 0.026, 0.07, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.35, 0.9, 1, 0.9)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0.15, 0.75, 1, 0.28)
+shadow_size = 20
+
+[node name="CompleteSystemDemo" type="Node2D"]
+
+[node name="NeonAudio" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("10_neon_audio")
+
+[node name="Arena" parent="." instance=ExtResource("1_arena")]
+
+[node name="ExpOrbPool" parent="." instance=ExtResource("2_orb_pool")]
+
+[node name="ExpManager" type="Node" parent="."]
+script = ExtResource("3_exp")
+level_cap = 60
+player_path = NodePath("../Arena/Player")
+enemy_pool_path = NodePath("../Arena/EnemyPool")
+orb_pool_path = NodePath("../ExpOrbPool")
+
+[node name="BuffSystem" type="Node" parent="."]
+script = ExtResource("4_buff")
+
+[node name="LevelUpUI" parent="." instance=ExtResource("5_level_ui")]
+
+[node name="RunProgression" type="Node" parent="."]
+script = ExtResource("6_run")
+player_path = NodePath("../Arena/Player")
+exp_manager_path = NodePath("../ExpManager")
+buff_system_path = NodePath("../BuffSystem")
+level_up_ui_path = NodePath("../LevelUpUI")
+wave_manager_path = NodePath("../Arena/WaveManager")
+
+[node name="RunHUD" type="CanvasLayer" parent="."]
+layer = 10
+script = ExtResource("7_hud")
+player_path = NodePath("../Arena/Player")
+exp_manager_path = NodePath("../ExpManager")
+wave_manager_path = NodePath("../Arena/WaveManager")
+
+[node name="WeaponHUD" type="CanvasLayer" parent="."]
+script = ExtResource("9_weapon_hud")
+player_path = NodePath("../Arena/Player")
+
+[node name="HUD" type="Control" parent="RunHUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Status" type="Panel" parent="RunHUD/HUD"]
+offset_left = 22.0
+offset_top = 18.0
+offset_right = 354.0
+offset_bottom = 176.0
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="HealthBar" type="ProgressBar" parent="RunHUD/HUD/Status"]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 18.0
+offset_right = 316.0
+offset_bottom = 45.0
+max_value = 120.0
+value = 120.0
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBarBackground")
+theme_override_styles/fill = SubResource("StyleHealthFill")
+
+[node name="HealthText" type="Label" parent="RunHUD/HUD/Status"]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 20.0
+offset_right = 316.0
+offset_bottom = 43.0
+theme_override_colors/font_color = Color(1, 0.94, 0.96, 1)
+theme_override_font_sizes/font_size = 14
+text = "HP  120 / 120"
+horizontal_alignment = 1
+
+[node name="ExpBar" type="ProgressBar" parent="RunHUD/HUD/Status"]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 70.0
+offset_right = 316.0
+offset_bottom = 94.0
+max_value = 20.0
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBarBackground")
+theme_override_styles/fill = SubResource("StyleExpFill")
+
+[node name="ExpText" type="Label" parent="RunHUD/HUD/Status"]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 71.0
+offset_right = 316.0
+offset_bottom = 93.0
+theme_override_colors/font_color = Color(0.91, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "LV 01   EXP 0 / 20"
+horizontal_alignment = 1
+
+[node name="DashBar" type="ProgressBar" parent="RunHUD/HUD/Status"]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 116.0
+offset_right = 316.0
+offset_bottom = 140.0
+max_value = 100.0
+value = 100.0
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBarBackground")
+theme_override_styles/fill = SubResource("StyleDashFill")
+
+[node name="DashText" type="Label" parent="RunHUD/HUD/Status"]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 117.0
+offset_right = 316.0
+offset_bottom = 139.0
+theme_override_colors/font_color = Color(0.93, 0.86, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "DASH HAZIR  //  SPACE"
+horizontal_alignment = 1
+
+[node name="WaveText" type="Label" parent="RunHUD/HUD"]
+offset_left = 1000.0
+offset_top = 24.0
+offset_right = 1254.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.48, 0.91, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "WAVE 01  //  NORMAL"
+horizontal_alignment = 2
+
+[node name="EnemyText" type="Label" parent="RunHUD/HUD"]
+offset_left = 1000.0
+offset_top = 62.0
+offset_right = 1254.0
+offset_bottom = 92.0
+theme_override_colors/font_color = Color(0.68, 0.76, 0.9, 1)
+theme_override_font_sizes/font_size = 13
+text = "TEHDİT  00"
+horizontal_alignment = 2
+
+[node name="WaveBanner" type="Label" parent="RunHUD/HUD"]
+offset_left = 390.0
+offset_top = 152.0
+offset_right = 890.0
+offset_bottom = 205.0
+theme_override_colors/font_color = Color(0.75, 0.96, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.02, 0.08, 0.18, 0.9)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 28
+text = "SEKTÖR 01"
+horizontal_alignment = 1
+
+[node name="Controls" type="Label" parent="RunHUD/HUD"]
+offset_left = 360.0
+offset_top = 678.0
+offset_right = 920.0
+offset_bottom = 708.0
+theme_override_colors/font_color = Color(0.58, 0.72, 0.86, 0.82)
+theme_override_font_sizes/font_size = 12
+text = "WASD / OK TUŞLARI  •  FAREYLE NİŞAN  •  SPACE: DASH  •  ESC: MENÜ"
+horizontal_alignment = 1
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+layer = 110
+process_mode = 3
+script = ExtResource("11_pause_menu")
+audio_path = NodePath("../NeonAudio")
+
+[node name="Overlay" type="Control" parent="PauseMenu"]
+visible = false
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="PauseMenu/Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.005, 0.009, 0.025, 0.82)
+
+[node name="Center" type="CenterContainer" parent="PauseMenu/Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="PauseMenu/Overlay/Center"]
+custom_minimum_size = Vector2(500, 330)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleGameOverPanel")
+
+[node name="Margin" type="MarginContainer" parent="PauseMenu/Overlay/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 44
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 44
+theme_override_constants/margin_bottom = 34
+
+[node name="VBox" type="VBoxContainer" parent="PauseMenu/Overlay/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Signal" type="Label" parent="PauseMenu/Overlay/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "SİSTEM MENÜSÜ  //  OYUN DURAKLATILDI"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="PauseMenu/Overlay/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 34
+text = "OYUN DURDU"
+horizontal_alignment = 1
+
+[node name="VolumeRow" type="HBoxContainer" parent="PauseMenu/Overlay/Center/Panel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="MusicDown" type="Button" parent="PauseMenu/Overlay/Center/Panel/Margin/VBox/VolumeRow"]
+custom_minimum_size = Vector2(58, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "−"
+tooltip_text = "Müzik sesini azalt"
+
+[node name="MusicVolume" type="Label" parent="PauseMenu/Overlay/Center/Panel/Margin/VBox/VolumeRow"]
+custom_minimum_size = Vector2(190, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.93, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "MÜZİK  %52"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MusicUp" type="Button" parent="PauseMenu/Overlay/Center/Panel/Margin/VBox/VolumeRow"]
+custom_minimum_size = Vector2(58, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "+"
+tooltip_text = "Müzik sesini artır"
+
+[node name="Resume" type="Button" parent="PauseMenu/Overlay/Center/Panel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.05, 0.11, 1)
+theme_override_colors/font_hover_color = Color(0.02, 0.05, 0.11, 1)
+theme_override_font_sizes/font_size = 17
+text = "OYUNA DÖN  //  ESC"
+
+[node name="GameOverUI" type="CanvasLayer" parent="."]
+layer = 120
+process_mode = 3
+
+[node name="Overlay" type="Control" parent="GameOverUI"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="GameOverUI/Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.005, 0.009, 0.025, 0.88)
+
+[node name="Center" type="CenterContainer" parent="GameOverUI/Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="GameOverUI/Overlay/Center"]
+custom_minimum_size = Vector2(520, 390)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleGameOverPanel")
+
+[node name="Margin" type="MarginContainer" parent="GameOverUI/Overlay/Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 42
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 42
+theme_override_constants/margin_bottom = 34
+
+[node name="VBox" type="VBoxContainer" parent="GameOverUI/Overlay/Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Signal" type="Label" parent="GameOverUI/Overlay/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.31, 0.46, 1)
+theme_override_font_sizes/font_size = 14
+text = "T.V.-80 // SİNYAL KESİLDİ"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="GameOverUI/Overlay/Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 38
+text = "KOŞU SONA ERDİ"
+horizontal_alignment = 1
+
+[node name="Stats" type="Label" parent="GameOverUI/Overlay/Center/Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.55, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "SKOR  0\nWAVE  01   //   İMHA  0\nSÜRE  00:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Restart" type="Button" parent="GameOverUI/Overlay/Center/Panel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.02, 0.05, 0.11, 1)
+theme_override_colors/font_hover_color = Color(0.02, 0.05, 0.11, 1)
+theme_override_font_sizes/font_size = 17
+text = "YENİ KOŞU BAŞLAT  →"
+
+[node name="WebGameBridge" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("8_web_bridge")
+player_path = NodePath("../Arena/Player")
+enemy_pool_path = NodePath("../Arena/EnemyPool")
+wave_manager_path = NodePath("../Arena/WaveManager")
+game_over_panel_path = NodePath("../GameOverUI/Overlay")
+game_over_stats_path = NodePath("../GameOverUI/Overlay/Center/Panel/Margin/VBox/Stats")
+restart_button_path = NodePath("../GameOverUI/Overlay/Center/Panel/Margin/VBox/Restart")

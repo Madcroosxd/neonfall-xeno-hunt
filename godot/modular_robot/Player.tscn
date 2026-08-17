@@ -1,0 +1,77 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://modular_robot/Player.gd" id="1_player"]
+[ext_resource type="Script" path="res://modular_robot/WeaponManager.gd" id="2_manager"]
+[ext_resource type="PackedScene" path="res://modular_robot/DatabaseWeapon.tscn" id="3_database_weapon"]
+[ext_resource type="Texture2D" path="res://modular_robot/assets/tupkafa_tough_idle.svg" id="4_idle"]
+[ext_resource type="Texture2D" path="res://modular_robot/assets/tupkafa_crying_hurt.svg" id="5_hurt"]
+[ext_resource type="Texture2D" path="res://modular_robot/assets/tupkafa_no_signal_death.svg" id="6_death"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tupkafa"]
+animations = [{
+"frames": [{"duration": 1.0, "texture": ExtResource("4_idle")}],
+"loop": true,
+"name": &"tough_idle",
+"speed": 5.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("5_hurt")}],
+"loop": true,
+"name": &"crying_hurt",
+"speed": 8.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("6_death")}],
+"loop": false,
+"name": &"no_signal_death",
+"speed": 3.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape_player"]
+radius = 25.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 1
+collision_mask = 8
+script = ExtResource("1_player")
+
+[node name="Shadow" type="Polygon2D" parent="."]
+position = Vector2(0, 23)
+scale = Vector2(1.25, 0.42)
+polygon = PackedVector2Array(25, 0, 23.096, 9.567, 17.678, 17.678, 9.567, 23.096, 0, 25, -9.567, 23.096, -17.678, 17.678, -23.096, 9.567, -25, 0, -23.096, -9.567, -17.678, -17.678, -9.567, -23.096, 0, -25, 9.567, -23.096, 17.678, -17.678, 23.096, -9.567)
+color = Color(0.01, 0.02, 0.06, 0.38)
+
+[node name="AimPivot" type="Node2D" parent="."]
+
+[node name="TupKafaSprite" type="AnimatedSprite2D" parent="AimPivot"]
+sprite_frames = SubResource("SpriteFrames_tupkafa")
+animation = &"tough_idle"
+scale = Vector2(0.7, 0.7)
+
+[node name="Hardpoints" type="Node2D" parent="AimPivot"]
+
+[node name="Marker2D_RightArm" type="Marker2D" parent="AimPivot/Hardpoints"]
+position = Vector2(22, 20)
+
+[node name="Marker2D_LeftArm" type="Marker2D" parent="AimPivot/Hardpoints"]
+position = Vector2(18, -22)
+
+[node name="Marker2D_Shoulders" type="Marker2D" parent="AimPivot/Hardpoints"]
+position = Vector2(-5, -31)
+
+[node name="Marker2D_Back" type="Marker2D" parent="AimPivot/Hardpoints"]
+position = Vector2(-29, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape_player")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.82, 0.82)
+position_smoothing_enabled = true
+position_smoothing_speed = 6.5
+
+[node name="PanicTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="WeaponManager" type="Node" parent="."]
+script = ExtResource("2_manager")
+database_weapon_scene = ExtResource("3_database_weapon")
